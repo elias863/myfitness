@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS esercizi (
+    id SERIAL PRIMARY KEY,
+    data DATE NOT NULL,
+    tipo VARCHAR(50) NOT NULL,
+    durata INTERVAL NOT NULL,
+    calorie INTEGER NOT NULL,
+    distanza FLOAT
+);
+
+CREATE TABLE IF NOT EXISTS peso (
+    id SERIAL PRIMARY KEY,
+    peso DECIMAL(5, 2) NOT NULL,
+    data DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sonno (
+    id SERIAL PRIMARY KEY,
+    durata INTERVAL NOT NULL,
+    data DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS cuore (
+    id SERIAL PRIMARY KEY,
+    bpm INTEGER NOT NULL,
+    data DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ossigeno (
+    id SERIAL PRIMARY KEY,
+    percentuale DECIMAL(5, 2) NOT NULL,
+    data DATE NOT NULL
+);
