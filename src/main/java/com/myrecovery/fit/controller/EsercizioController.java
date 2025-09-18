@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/esercizi")
 public class EsercizioController {
@@ -21,35 +21,21 @@ public class EsercizioController {
         this.esercizioService = esercizioService;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<Esercizio>> getAllEsercizi() {
-        try {
+    @GetMapping("/all")
+    public List<Esercizio> getAllEsercizi() {
+        List<Esercizio> esercizi = new ArrayList<Esercizio>(esercizioService.findAll());
+        esercizi = esercizioService.findAll();
 
-            List<Esercizio> esercizi = new ArrayList<Esercizio>(esercizioService.findAll());
-            esercizi = esercizioService.findAll();
-
-            if (esercizi.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(esercizi, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return esercizi;
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Esercizio> createEsercizio(@RequestBody Esercizio esercizio) {
-        try {
-            Esercizio _esercizio = esercizioService
-                    .save(new Esercizio(esercizio.getData(), esercizio.getTipo(), esercizio.getDurata(), esercizio.getCalorie(), esercizio.getDistanza()));
-            return new ResponseEntity<>(_esercizio, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @PostMapping("/create")
+    public void createEsercizio(@RequestBody Esercizio esercizio) {
+
+        esercizioService.save(new Esercizio(esercizio.getData(), esercizio.getTipo(), esercizio.getDurata(), esercizio.getCalorie(), esercizio.getDistanza()));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Esercizio> updateEsercizio(@PathVariable("id") long id, @RequestBody Esercizio esercizio) {
         Optional<Esercizio> eserciziData = esercizioService.findById(id);
 
@@ -66,7 +52,7 @@ public class EsercizioController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteEsercizio(@PathVariable("id") long id) {
         try {
             esercizioService.deleteById(id);
@@ -76,7 +62,7 @@ public class EsercizioController {
         }
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/deleteall")
     public ResponseEntity<HttpStatus> deleteAllEsercizi() {
         try {
             esercizioService.deleteAll();

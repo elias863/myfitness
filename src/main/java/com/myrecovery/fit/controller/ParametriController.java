@@ -22,7 +22,7 @@ public class ParametriController {
         this.parametriService = parametriService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<List<Parametri>> getAllParametri() {
         try {
 
@@ -39,7 +39,7 @@ public class ParametriController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping("/create")
     public ResponseEntity<Parametri> createParametri(@RequestBody Parametri parametri) {
         try {
             Parametri _parametri = parametriService
@@ -50,7 +50,7 @@ public class ParametriController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Parametri> updateParametri(@PathVariable("id") long id, @RequestBody Parametri parametri) {
         Optional<Parametri> parametriData = parametriService.findById(id);
 
@@ -67,7 +67,7 @@ public class ParametriController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteParametri(@PathVariable("id") long id) {
         try {
             parametriService.deleteById(id);
@@ -77,7 +77,7 @@ public class ParametriController {
         }
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/deleteall")
     public ResponseEntity<HttpStatus> deleteAllParametri() {
         try {
             parametriService.deleteAll();

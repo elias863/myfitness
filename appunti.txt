@@ -1,0 +1,20 @@
+Podman:
+Non installare podman nè per Win nè per linux, installare solo Podman desktop che al suo interno ha l'estensione podman
+Nel caso sia installato podman per Linux e per win disinstallarle.
+Se non si riesce a fare il setup della vm da Podman desktop riavviare e riprovare (funziona)
+Una volta che la VM è in running chiudere eventuali terminali e riaprirli per fargli prendere le modifiche.
+
+Se non funziona seguire questi passi:
+=====================================
+
+1. Disinstalla e Rimuovi la macchina Podman
+    podman machine rm podman-machine-default (Aggiungere -f per forzare il comando)
+
+2. Inizializza una Nuova Macchina Podman
+    podman machine init
+
+3. Avvia la Nuova Macchina
+    podman machine start
+
+4. Verifica lo stato della macchina:
+    podman machine list
