@@ -1,11 +1,13 @@
-Podman:
+Podman
+======
+
 Non installare podman nè per Win nè per linux, installare solo Podman desktop che al suo interno ha l'estensione podman
 Nel caso sia installato podman per Linux e per win disinstallarle.
 Se non si riesce a fare il setup della vm da Podman desktop riavviare e riprovare (funziona)
 Una volta che la VM è in running chiudere eventuali terminali e riaprirli per fargli prendere le modifiche.
 
 Se non funziona seguire questi passi:
-=====================================
+-------------------------------------
 
 1. Disinstalla e Rimuovi la macchina Podman
     podman machine rm podman-machine-default (Aggiungere -f per forzare il comando)
@@ -18,3 +20,9 @@ Se non funziona seguire questi passi:
 
 4. Verifica lo stato della macchina:
     podman machine list
+	
+Front-end
+=========
+
+1) 	JWT nei frontend moderni non va salvato nel localStorage se puoi evitarlo (troppo esposto a XSS). 
+	Meglio usarlo nei cookie HTTPOnly o in memoria + refresh token. Questa scelta impatta molto su come costruirai il login nel frontend
