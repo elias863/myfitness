@@ -21,28 +21,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // Inject UserInfoService here directly if it doesn't cause a direct cycle
-    // If UserInfoService itself needs a PasswordEncoder from this config,
-    // then getPasswordEncoder() is correctly a @Bean method.
-    // The key is to break the cycle.
-
-    // This method provides your custom UserDetailsService
+    // Bean sostiutivo all'injection per evitare la dipendenza circolare
     @Bean
     public UserDetailsService userDetailsService() {
-        // Assuming UserInfoService is your implementation of UserDetailsService
-        // If UserInfoService has no *direct* dependencies on SecurityConfig,
-        // then this is fine. If it depends on PasswordEncoder, the @Bean for
-        // PasswordEncoder will be created first.
         return new UserInfoService(); // Spring will handle injecting its dependencies
     }
 
-    // This method provides your JwtAuthFilter
-    // IMPORTANT: Make this a @Bean method, so Spring manages its creation.
-    // It will be fully initialized when SecurityFilterChain needs it.
+    // Bean sostiutivo all'injection per evitare la dipendenza circolare
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
-        // Spring will inject UserDetailsService and JwtService into JwtAuthFilter's constructor
-        // assuming they are @Beans.
         return new JwtAuthFilter();
     }
 
@@ -63,6 +50,12 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers("/auth/welcome","/auth/addNewUser", "/auth/generateToken")
                         .permitAll()
+
+                        // endpoint Esercizio e Parametri (l'utente può solo visualizzare, per le altre operazioni serve essere ADMIN), l'admin può fare tutto
+                        .requestMatchers("/api/parametri/all", "/api/esercizi/all").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+
+                        .requestMatchers("/api/parametri/create", "/api/parametri/update/{id}","/api/parametri/delete/{id}","/api/parametri/deleteall").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/esercizi/create", "/api/esercizi/update/{id}","/api/esercizi/delete/{id}","/api/esercizi/deleteall").hasAuthority("ROLE_ADMIN")
 
                         // role-based endpoints
                         .requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
